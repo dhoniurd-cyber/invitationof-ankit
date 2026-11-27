@@ -1,0 +1,1296 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, viewport-fit=cover" />
+  <title>Ankit Kumar &amp; Komal Kumari — Shubh Vivah</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@700&family=Cormorant+Garamond:ital,wght@0,600;0,700;1,600&family=Great+Vibes&family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Tiro+Devanagari+Hindi:ital@0;1&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --cream-bg: #FBF5E8;
+      --cream-card: #FFFDF7;
+      --cream-tint: #F3E6CE;
+      --maroon: #7A1422;
+      --maroon-deep: #4B0A13;
+      --gold: #C6923A;
+      --gold-light: #E8C57B;
+      --ink: #2C1014;
+      --ink-muted: #69494D;
+      --font-hindi: 'Tiro Devanagari Hindi', serif;
+      --font-display: 'Cormorant Garamond', Georgia, serif;
+      --font-royal: 'Cinzel Decorative', serif;
+      --font-script: 'Great Vibes', cursive;
+      --font-body: 'Plus Jakarta Sans', sans-serif;
+    }
+
+    * {
+      box-sizing: border-box;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    html, body {
+      margin: 0;
+      padding: 0;
+      width: 100%;
+      max-width: 100vw;
+      background-color: var(--cream-bg);
+      color: var(--ink);
+      font-family: var(--font-body);
+      overflow-x: hidden;
+      scroll-behavior: smooth;
+      -webkit-text-size-adjust: 100%;
+    }
+
+    /* ==========================================
+       1. MOBILE-FIRST ENVELOPE -> CARD -> BOOK STAGE
+       ========================================== */
+    .stage-overlay {
+      position: fixed;
+      inset: 0;
+      width: 100%;
+      height: 100dvh;
+      z-index: 9000;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 16px;
+      background:
+        radial-gradient(circle at 50% 30%, rgba(198, 146, 58, 0.22), transparent 60%),
+        radial-gradient(circle at 50% 50%, #4A0D16 0%, #1F0408 100%);
+      perspective: 1600px;
+      transition: opacity 0.8s ease, visibility 0.8s ease;
+    }
+
+    .stage-overlay.stage-done {
+      opacity: 0;
+      visibility: hidden;
+      pointer-events: none;
+    }
+
+    .stage-wrapper {
+      position: relative;
+      width: min(340px, 84vw);
+      max-height: 74dvh;
+      aspect-ratio: 9 / 15.5;
+      transform-style: preserve-3d;
+    }
+
+    .envelope-box {
+      position: absolute;
+      inset: 0;
+      border-radius: 16px;
+      overflow: hidden;
+      border: 2.5px solid var(--gold);
+      box-shadow: 0 22px 55px rgba(0, 0, 0, 0.7), 0 0 22px rgba(232, 197, 123, 0.25);
+      cursor: pointer;
+      backface-visibility: hidden;
+      transform-origin: center center;
+      transition: transform 0.9s cubic-bezier(0.4, 0.0, 0.2, 1), opacity 0.55s ease;
+      z-index: 3;
+      background: #F5E8CE;
+      touch-action: manipulation;
+    }
+
+    .envelope-box img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    .stage-wrapper.step-card .envelope-box {
+      transform: rotateY(-180deg) scale(0.95);
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    .card-book-box {
+      position: absolute;
+      inset: 0;
+      transform-style: preserve-3d;
+      transform: rotateY(180deg) scale(0.95);
+      opacity: 0;
+      pointer-events: none;
+      transition: transform 0.9s cubic-bezier(0.4, 0.0, 0.2, 1), opacity 0.55s ease;
+      z-index: 2;
+      cursor: pointer;
+      touch-action: manipulation;
+    }
+
+    .stage-wrapper.step-card .card-book-box {
+      transform: rotateY(0deg) scale(1);
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .book-inside-base {
+      position: absolute;
+      inset: 0;
+      border-radius: 16px;
+      background: linear-gradient(165deg, #FFFDF8 0%, #F4E4C6 100%);
+      border: 2.5px solid var(--gold);
+      box-shadow: inset 0 0 0 6px rgba(122, 20, 34, 0.12), 0 20px 50px rgba(0, 0, 0, 0.65);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      text-align: center;
+      color: var(--maroon);
+    }
+
+    .book-inside-base h3 {
+      font-family: var(--font-hindi);
+      font-size: 22px;
+      margin: 0 0 8px;
+      color: var(--maroon);
+    }
+
+    .book-inside-base p {
+      font-family: var(--font-display);
+      font-size: 19px;
+      font-weight: 700;
+      margin: 0;
+      color: var(--ink);
+    }
+
+    .book-front-cover {
+      position: absolute;
+      inset: 0;
+      border-radius: 16px;
+      overflow: hidden;
+      border: 2.5px solid var(--gold);
+      box-shadow: 0 22px 55px rgba(0, 0, 0, 0.72);
+      transform-origin: left center;
+      transform-style: preserve-3d;
+      transition: transform 1.1s cubic-bezier(0.25, 0.85, 0.25, 1);
+      background: #F5E8CE;
+    }
+
+    .book-front-cover img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    .stage-wrapper.step-book .book-front-cover {
+      transform: rotateY(-155deg);
+    }
+
+    .stage-hint {
+      margin-top: 16px;
+      padding: 8px 18px;
+      border-radius: 999px;
+      background: rgba(255, 253, 247, 0.14);
+      border: 1px solid rgba(232, 197, 123, 0.5);
+      color: #FBE9C6;
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      text-align: center;
+      animation: pulseHint 2s infinite;
+    }
+
+    @keyframes pulseHint {
+      0%, 100% { transform: scale(1); opacity: 0.9; }
+      50% { transform: scale(1.03); opacity: 1; }
+    }
+
+    /* ==========================================
+       2. MAIN ROYAL CARD-THEMED WEBSITE
+       ========================================== */
+    .main-site {
+      display: none;
+      width: 100%;
+      overflow-x: hidden;
+      background-color: var(--cream-bg);
+      background-image:
+        radial-gradient(circle at 50% 0%, rgba(198, 146, 58, 0.14), transparent 55%),
+        radial-gradient(rgba(122, 20, 34, 0.04) 1px, transparent 0);
+      background-size: 100% 100%, 24px 24px;
+    }
+
+    .main-site.is-visible {
+      display: block;
+      animation: fadeInMain 0.85s ease forwards;
+    }
+
+    @keyframes fadeInMain {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    .container {
+      width: 100%;
+      max-width: 1040px;
+      margin: 0 auto;
+      padding: 0 14px;
+    }
+
+    .royal-frame {
+      background: linear-gradient(180deg, #FFFDF8 0%, #FAF0DC 100%);
+      border: 2px solid var(--gold);
+      border-radius: 22px;
+      box-shadow:
+        0 12px 32px rgba(44, 16, 20, 0.09),
+        inset 0 0 0 5px rgba(198, 146, 58, 0.16),
+        inset 0 0 0 7px rgba(122, 20, 34, 0.75);
+      padding: 36px 20px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .section-block {
+      padding: 28px 0;
+      position: relative;
+    }
+
+    .eyebrow {
+      display: block;
+      font-family: var(--font-hindi);
+      font-size: 16px;
+      color: var(--maroon);
+      letter-spacing: 0.05em;
+      margin-bottom: 6px;
+      text-align: center;
+    }
+
+    .sec-title {
+      font-family: var(--font-display);
+      font-size: clamp(28px, 6vw, 44px);
+      font-weight: 700;
+      color: var(--maroon);
+      text-align: center;
+      margin: 0 0 8px;
+      line-height: 1.15;
+    }
+
+    .sec-hindi-sub {
+      font-family: var(--font-hindi);
+      font-size: 16px;
+      color: var(--ink-muted);
+      text-align: center;
+      margin: 0 0 24px;
+    }
+
+    .gold-divider {
+      width: 120px;
+      height: 2px;
+      background: linear-gradient(90deg, transparent, var(--gold), var(--maroon), var(--gold), transparent);
+      margin: 12px auto 20px;
+    }
+
+    /* ==========================================
+       3. HERO & COUPLE SECTION
+       ========================================== */
+    .hero-wrap {
+      padding-top: 20px;
+      padding-bottom: 24px;
+    }
+
+    .mantra-top {
+      font-family: var(--font-hindi);
+      font-size: 19px;
+      color: var(--maroon);
+      text-align: center;
+      margin: 0 0 12px;
+    }
+
+    .hero-card-badge {
+      width: 104px;
+      height: 104px;
+      margin: 0 auto 14px;
+      border-radius: 50%;
+      border: 3px solid var(--gold);
+      box-shadow: 0 8px 22px rgba(122, 20, 34, 0.2);
+      overflow: hidden;
+      background: #FFFDF8;
+    }
+
+    .hero-card-badge img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: top center;
+    }
+
+    .hero-names {
+      text-align: center;
+      font-family: var(--font-display);
+      font-size: clamp(36px, 9vw, 72px);
+      font-weight: 700;
+      color: var(--ink);
+      margin: 0;
+      line-height: 1.08;
+    }
+
+    .hero-names .amp {
+      display: block;
+      font-family: var(--font-script);
+      font-size: clamp(36px, 7vw, 58px);
+      font-weight: 400;
+      color: var(--maroon);
+      margin: 4px 0;
+    }
+
+    .hero-date-pill {
+      display: table;
+      margin: 18px auto 0;
+      padding: 7px 22px;
+      border-radius: 999px;
+      background: var(--maroon);
+      color: #FFFDF8;
+      border: 1.5px solid var(--gold-light);
+      font-family: var(--font-display);
+      font-size: 20px;
+      font-weight: 700;
+      letter-spacing: 0.03em;
+    }
+
+    .couple-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+      gap: 20px;
+      margin-top: 28px;
+    }
+
+    .person-card {
+      background: var(--cream-card);
+      border: 1.5px solid var(--gold);
+      border-radius: 20px;
+      padding: 22px 16px;
+      text-align: center;
+      cursor: pointer;
+      touch-action: manipulation;
+      transition: transform 0.25s ease, box-shadow 0.25s ease;
+      box-shadow: 0 8px 22px rgba(44, 16, 20, 0.07);
+    }
+
+    .person-card:active {
+      transform: scale(0.98);
+    }
+
+    .person-photo {
+      width: 132px;
+      height: 132px;
+      margin: 0 auto 14px;
+      border-radius: 50%;
+      border: 3px solid var(--gold);
+      box-shadow: 0 0 0 3.5px var(--maroon);
+      overflow: hidden;
+      background: var(--cream-tint);
+    }
+
+    .person-photo img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .person-role {
+      font-family: var(--font-hindi);
+      font-size: 15px;
+      color: var(--maroon);
+      margin: 0 0 4px;
+    }
+
+    .person-name {
+      font-family: var(--font-display);
+      font-size: 27px;
+      font-weight: 700;
+      color: var(--ink);
+      margin: 0 0 8px;
+    }
+
+    .tap-detail-badge {
+      display: inline-block;
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--maroon);
+      background: rgba(198, 146, 58, 0.22);
+      border: 1px solid var(--gold);
+      padding: 5px 14px;
+      border-radius: 999px;
+    }
+
+    /* ==========================================
+       4. LIVE COUNTDOWN (11.12.2026 IST)
+       ========================================== */
+    .countdown-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 10px;
+      max-width: 680px;
+      margin: 0 auto;
+    }
+
+    .cd-box {
+      background: var(--cream-card);
+      border: 1.5px solid var(--gold);
+      border-radius: 14px;
+      padding: 14px 6px;
+      text-align: center;
+      box-shadow: 0 6px 16px rgba(44, 16, 20, 0.06);
+    }
+
+    .cd-num {
+      display: block;
+      font-family: var(--font-display);
+      font-size: clamp(28px, 7vw, 48px);
+      font-weight: 700;
+      color: var(--maroon);
+      line-height: 1;
+    }
+
+    .cd-label {
+      display: block;
+      margin-top: 5px;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--ink-muted);
+    }
+
+    /* ==========================================
+       5. MOBILE-FRIENDLY EVENT SECTIONS
+       ========================================== */
+    .event-showcase {
+      position: relative;
+      min-height: 330px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      cursor: pointer;
+      user-select: none;
+      touch-action: manipulation;
+    }
+
+    .event-content-z {
+      position: relative;
+      z-index: 3;
+      max-width: 580px;
+      padding: 10px 6px;
+    }
+
+    .event-hindi-tag {
+      display: inline-block;
+      padding: 5px 16px;
+      border-radius: 999px;
+      background: var(--maroon);
+      color: #FFFDF8;
+      border: 1px solid var(--gold-light);
+      font-family: var(--font-hindi);
+      font-size: 15px;
+      margin-bottom: 10px;
+    }
+
+    .event-heading {
+      font-family: var(--font-display);
+      font-size: clamp(30px, 7vw, 50px);
+      font-weight: 700;
+      color: var(--maroon);
+      margin: 0 0 10px;
+    }
+
+    .event-info-line {
+      font-size: 16px;
+      line-height: 1.6;
+      color: var(--ink);
+      margin: 6px 0;
+      font-weight: 500;
+    }
+
+    .event-info-line strong {
+      color: var(--maroon-deep);
+    }
+
+    .event-tap-cue {
+      margin-top: 16px;
+      display: inline-block;
+      font-size: 11.5px;
+      font-weight: 700;
+      letter-spacing: 0.06em;
+      color: var(--maroon);
+      background: rgba(255, 253, 247, 0.92);
+      border: 1px dashed var(--gold);
+      padding: 6px 14px;
+      border-radius: 999px;
+    }
+
+    /* HALDI */
+    .haldi-zone {
+      background: linear-gradient(180deg, #FFFDF6 0%, #FDF2D0 100%);
+    }
+
+    .haldi-side-img {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      width: clamp(95px, 24vw, 230px);
+      max-height: 80%;
+      object-fit: contain;
+      opacity: 0.24;
+      pointer-events: none;
+      z-index: 1;
+      transition: transform 0.35s ease, opacity 0.35s ease;
+    }
+
+    .haldi-left { left: 8px; }
+    .haldi-right { right: 8px; }
+
+    /* SHUBH VIVAH */
+    .vivah-zone {
+      background: linear-gradient(180deg, #FFFDF8 0%, #F9E8D2 100%);
+      padding-bottom: 125px;
+    }
+
+    .jaymala-side-img {
+      position: absolute;
+      top: 42%;
+      transform: translateY(-50%);
+      width: clamp(90px, 23vw, 220px);
+      max-height: 70%;
+      object-fit: contain;
+      opacity: 0.22;
+      pointer-events: none;
+      z-index: 1;
+    }
+
+    .jaymala-left { left: 8px; }
+    .jaymala-right {
+      right: 8px;
+      transform: translateY(-50%) scaleX(-1);
+    }
+
+    .havan-bottom-img {
+      position: absolute;
+      bottom: 10px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: clamp(115px, 28vw, 200px);
+      max-height: 110px;
+      object-fit: contain;
+      opacity: 0.35;
+      pointer-events: none;
+      z-index: 1;
+      filter: drop-shadow(0 0 10px rgba(255, 140, 0, 0.35));
+    }
+
+    /* PREETIBHOJ */
+    .preetibhoj-zone {
+      background: linear-gradient(180deg, #FFFDF8 0%, #F5E7CE 100%);
+    }
+
+    .preetibhoj-bg-img {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center;
+      opacity: 0.2;
+      pointer-events: none;
+      z-index: 1;
+    }
+
+    /* ==========================================
+       6. PRE-WEDDING 5 PHOTOS GALLERY
+       ========================================== */
+    .gallery-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 12px;
+    }
+
+    .gallery-item {
+      position: relative;
+      border-radius: 14px;
+      overflow: hidden;
+      border: 2px solid var(--gold);
+      box-shadow: 0 8px 18px rgba(44, 16, 20, 0.1);
+      aspect-ratio: 3 / 4;
+      cursor: pointer;
+      touch-action: manipulation;
+      background: var(--cream-tint);
+    }
+
+    .gallery-item:last-child {
+      grid-column: 1 / -1;
+      aspect-ratio: 16 / 10;
+    }
+
+    .gallery-item img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    /* ==========================================
+       7. FOOTER & RSVP
+       ========================================== */
+    .royal-footer {
+      background: linear-gradient(180deg, var(--maroon) 0%, var(--maroon-deep) 100%);
+      color: #FFFDF8;
+      border-top: 3px solid var(--gold);
+      padding: 44px 16px calc(36px + env(safe-area-inset-bottom));
+      text-align: center;
+      margin-top: 24px;
+    }
+
+    .footer-title {
+      font-family: var(--font-display);
+      font-size: clamp(28px, 6vw, 44px);
+      margin: 0 0 10px;
+      color: #FFFDF8;
+    }
+
+    .footer-address {
+      font-family: var(--font-hindi);
+      font-size: 16px;
+      color: #F3DEC0;
+      max-width: 620px;
+      margin: 0 auto 22px;
+      line-height: 1.6;
+    }
+
+    .footer-btns {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 12px;
+      max-width: 360px;
+      margin: 0 auto;
+    }
+
+    .btn-royal {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
+      min-height: 48px;
+      padding: 12px 20px;
+      border-radius: 999px;
+      font-size: 14.5px;
+      font-weight: 700;
+      text-decoration: none;
+      cursor: pointer;
+      touch-action: manipulation;
+      border: 1.5px solid var(--gold-light);
+    }
+
+    .btn-gold {
+      background: linear-gradient(135deg, #E8C57B 0%, #C6923A 100%);
+      color: var(--maroon-deep);
+    }
+
+    .btn-outline-cream {
+      background: rgba(255, 253, 248, 0.14);
+      color: #FFFDF8;
+    }
+
+    /* ==========================================
+       8. MODALS (COUPLE POPUP & LIGHTBOX)
+       ========================================== */
+    .modal-backdrop {
+      position: fixed;
+      inset: 0;
+      z-index: 9500;
+      background: rgba(26, 4, 8, 0.85);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 16px;
+    }
+
+    .modal-backdrop.is-open {
+      display: flex;
+    }
+
+    .modal-card {
+      background: linear-gradient(180deg, #FFFDF8 0%, #F6E8CE 100%);
+      border: 2.5px solid var(--gold);
+      border-radius: 20px;
+      max-width: 380px;
+      width: 100%;
+      padding: 26px 18px;
+      text-align: center;
+      position: relative;
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.65);
+    }
+
+    .modal-close {
+      position: absolute;
+      top: 10px;
+      right: 12px;
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      border: 1px solid var(--gold);
+      background: var(--maroon);
+      color: #FFFDF8;
+      font-size: 20px;
+      line-height: 1;
+      cursor: pointer;
+      touch-action: manipulation;
+    }
+
+    .lightbox-img {
+      max-width: 94vw;
+      max-height: 82dvh;
+      border-radius: 14px;
+      border: 2.5px solid var(--gold);
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.85);
+    }
+
+    /* ==========================================
+       9. AUTO PETALS, TAP PARTICLES & LANTERNS
+       ========================================== */
+    .fx-layer {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 9999;
+      overflow: hidden;
+    }
+
+    .auto-petal {
+      position: fixed;
+      top: -36px;
+      pointer-events: none;
+      user-select: none;
+      will-change: transform, opacity;
+      animation: autoPetalFall linear forwards;
+    }
+
+    @keyframes autoPetalFall {
+      0% {
+        transform: translate3d(0, -30px, 0) rotate(0deg);
+        opacity: 0;
+      }
+      12% {
+        opacity: 0.9;
+      }
+      88% {
+        opacity: 0.85;
+      }
+      100% {
+        transform: translate3d(var(--drift-x, 35px), 108dvh, 0) rotate(var(--spin-deg, 360deg));
+        opacity: 0;
+      }
+    }
+
+    .tap-particle {
+      position: fixed;
+      pointer-events: none;
+      user-select: none;
+      will-change: transform, opacity;
+    }
+
+    .wish-lantern {
+      position: fixed;
+      bottom: -90px;
+      width: 48px;
+      height: 70px;
+      pointer-events: none;
+      z-index: 9990;
+      animation: lanternFloat 5.8s linear forwards;
+    }
+
+    @keyframes lanternFloat {
+      0% { transform: translateY(0) scale(0.85); opacity: 0; }
+      12% { opacity: 1; }
+      100% { transform: translateY(-112dvh) scale(1.08); opacity: 0.75; }
+    }
+
+    @media (min-width: 768px) {
+      .royal-frame { padding: 44px 32px; }
+      .section-block { padding: 42px 0; }
+      .gallery-grid { grid-template-columns: repeat(3, 1fr); gap: 18px; }
+      .gallery-item:last-child { grid-column: auto; aspect-ratio: 3 / 4; }
+      .footer-btns { flex-direction: row; max-width: 680px; }
+    }
+  </style>
+</head>
+<body>
+
+  <div id="fxLayer" class="fx-layer" aria-hidden="true"></div>
+
+  <!-- STEP 1 -> STEP 2 -> STEP 3: ENVELOPE TO CARD TO 3D BOOK -->
+  <div id="stageOverlay" class="stage-overlay">
+    <div id="stageWrapper" class="stage-wrapper">
+      <div id="envelopeBox" class="envelope-box" role="button" tabindex="0" aria-label="Tap Envelope to Flip Out Card">
+        <img src="envelope.jpg" alt="Shubh Vivah Envelope — Ankit & Komal" />
+      </div>
+
+      <div id="cardBookBox" class="card-book-box" role="button" tabindex="0" aria-label="Tap Card to Open Book">
+        <div class="book-inside-base">
+          <h3>|| श्री गणेशाय नमः ||</h3>
+          <p>Ankit Kumar &amp; Komal Kumari</p>
+          <span style="margin-top:8px;font-size:15px;color:#7A1422;">11.12.2026</span>
+        </div>
+        <div class="book-front-cover">
+          <img src="card.jpg" alt="Radha Krishna & Ganesh Ji Wedding Card" />
+        </div>
+      </div>
+    </div>
+    <div id="stageHint" class="stage-hint">Tap the Envelope to Open</div>
+  </div>
+
+  <!-- MAIN ROYAL WEDDING INVITATION WEBSITE -->
+  <main id="mainSite" class="main-site">
+
+    <!-- HERO & COUPLE SECTION -->
+    <section class="hero-wrap">
+      <div class="container">
+        <div class="royal-frame">
+          <p class="mantra-top">|| श्री गणेशाय नमः ||</p>
+          <div class="hero-card-badge">
+            <img src="card.jpg" alt="Radha Krishna Blessing" />
+          </div>
+          <span class="eyebrow">पावन परिणय उत्सव · शुभ विवाह</span>
+          <h1 class="hero-names">
+            Ankit Kumar
+            <span class="amp">&amp;</span>
+            Komal Kumari
+          </h1>
+          <div class="gold-divider"></div>
+          <div class="hero-date-pill">11.12.2026 · शुक्रवार (Friday)</div>
+
+          <div class="couple-grid">
+            <div class="person-card" data-person="groom">
+              <div class="person-photo">
+                <img src="groom.jpg" alt="Ankit Kumar" />
+              </div>
+              <p class="person-role">चि. वर (Groom)</p>
+              <h2 class="person-name">Ankit Kumar</h2>
+              <span class="tap-detail-badge">Tap for Family Details</span>
+            </div>
+
+            <div class="person-card" data-person="bride">
+              <div class="person-photo">
+                <img src="bride.jpg" alt="Komal Kumari" />
+              </div>
+              <p class="person-role">आयु. वधू (Bride)</p>
+              <h2 class="person-name">Komal Kumari</h2>
+              <span class="tap-detail-badge">Tap for Family Details</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- COUNTDOWN SECTION -->
+    <section class="section-block">
+      <div class="container">
+        <div class="royal-frame">
+          <span class="eyebrow">शुभ घड़ी की प्रतीक्षा</span>
+          <h2 class="sec-title">Wedding Countdown</h2>
+          <p class="sec-hindi-sub">11 दिसम्बर 2026 (IST +05:30)</p>
+          <div class="countdown-grid">
+            <div class="cd-box">
+              <span class="cd-num" id="cdDays">00</span>
+              <span class="cd-label">Days</span>
+            </div>
+            <div class="cd-box">
+              <span class="cd-num" id="cdHours">00</span>
+              <span class="cd-label">Hours</span>
+            </div>
+            <div class="cd-box">
+              <span class="cd-num" id="cdMinutes">00</span>
+              <span class="cd-label">Mins</span>
+            </div>
+            <div class="cd-box">
+              <span class="cd-num" id="cdSeconds">00</span>
+              <span class="cd-label">Secs</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- EVENT 1: HALDI SECTION -->
+    <section class="section-block" id="haldiSection">
+      <div class="container">
+        <div class="royal-frame event-showcase haldi-zone" data-tap-zone="haldi">
+          <img src="haldi-left.png" alt="" class="haldi-side-img haldi-left" />
+          <img src="haldi-right.png" alt="" class="haldi-side-img haldi-right" />
+
+          <div class="event-content-z">
+            <span class="event-hindi-tag">मंगल कार्यक्रम · प्रथम दिवस</span>
+            <h2 class="event-heading">हल्दी समारोह (Haldi)</h2>
+            <div class="gold-divider"></div>
+            <p class="event-info-line"><strong>दिनांक एवं दिन:</strong> 10.12.2026 · गुरुवार (Thursday)</p>
+            <p class="event-info-line"><strong>स्थान:</strong> निज निवास — धमरबहाल, चुनुडीह, पो०: घाटशिला, पूर्वी सिंहभूम, झारखण्ड</p>
+            <span class="event-tap-cue">यहाँ टैप करें · हल्दी एवं गेंदे के फूलों की वर्षा</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- EVENT 2: SHUBH VIVAH SECTION -->
+    <section class="section-block" id="vivahSection">
+      <div class="container">
+        <div class="royal-frame event-showcase vivah-zone" data-tap-zone="vivah">
+          <img src="jaymala-couple.png" alt="" class="jaymala-side-img jaymala-left" />
+          <img src="jaymala-couple.png" alt="" class="jaymala-side-img jaymala-right" />
+          <img src="havan-kund.png" alt="" class="havan-bottom-img" />
+
+          <div class="event-content-z">
+            <span class="event-hindi-tag">पावन परिणय · मुख्य समारोह</span>
+            <h2 class="event-heading">शुभ विवाह (Shubh Vivah)</h2>
+            <div class="gold-divider"></div>
+            <p class="event-info-line"><strong>दिनांक एवं दिन:</strong> 11.12.2026 · शुक्रवार (Friday)</p>
+            <p class="event-info-line"><strong>शुभ बारात प्रस्थान:</strong> संध्या 07:00 बजे धमरबहाल, चुनुडीह से बेनाशोल, केन्दाडीह मुसाबनी के लिए प्रस्थान करेगी।</p>
+            <span class="event-tap-cue">यहाँ टैप करें · पुष्प वर्षा एवं आशीर्वाद</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- EVENT 3: PREETIBHOJ SECTION -->
+    <section class="section-block" id="preetibhojSection">
+      <div class="container">
+        <div class="royal-frame event-showcase preetibhoj-zone" data-tap-zone="preetibhoj">
+          <img src="preetibhoj-bg.png" alt="" class="preetibhoj-bg-img" />
+
+          <div class="event-content-z">
+            <span class="event-hindi-tag">आशीर्वाद एवं स्नेह मिलन</span>
+            <h2 class="event-heading">प्रीतिभोज (Preetibhoj)</h2>
+            <div class="gold-divider"></div>
+            <p class="event-info-line"><strong>दिनांक एवं दिन:</strong> 13.12.2026 · रविवार (Sunday)</p>
+            <p class="event-info-line"><strong>समय:</strong> संध्या 07:00 बजे से आपके आगमन तक (07:00 PM onwards)</p>
+            <p class="event-info-line"><strong>स्थान:</strong> निज निवास — धमरबहाल, चुनुडीह, पो०: घाटशिला, पूर्वी सिंहभूम, झारखण्ड</p>
+            <span class="event-tap-cue">यहाँ टैप करें · रंग-बिरंगी उत्सव रोशनी</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- PRE-WEDDING GALLERY (5 PHOTOS) -->
+    <section class="section-block" id="gallerySection">
+      <div class="container">
+        <div class="royal-frame">
+          <span class="eyebrow">मधुर स्मृतियाँ</span>
+          <h2 class="sec-title">Pre-Wedding Moments</h2>
+          <p class="sec-hindi-sub">अंकित एवं कोमल के खूबसूरत पल (फोटो पर टैप करें)</p>
+          <div class="gallery-grid">
+            <div class="gallery-item" data-full="prewedding1.jpg">
+              <img src="prewedding1.jpg" alt="Ankit & Komal Pre-Wedding 1" loading="lazy" />
+            </div>
+            <div class="gallery-item" data-full="prewedding2.jpg">
+              <img src="prewedding2.jpg" alt="Ankit & Komal Pre-Wedding 2" loading="lazy" />
+            </div>
+            <div class="gallery-item" data-full="prewedding3.jpg">
+              <img src="prewedding3.jpg" alt="Ankit & Komal Pre-Wedding 3" loading="lazy" />
+            </div>
+            <div class="gallery-item" data-full="prewedding4.jpg">
+              <img src="prewedding4.jpg" alt="Ankit & Komal Pre-Wedding 4" loading="lazy" />
+            </div>
+            <div class="gallery-item" data-full="prewedding5.jpg">
+              <img src="prewedding5.jpg" alt="Ankit & Komal Pre-Wedding 5" loading="lazy" />
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- FOOTER & RSVP -->
+    <footer class="royal-footer">
+      <div class="container">
+        <p style="font-family:var(--font-hindi);font-size:16px;color:#E8C57B;margin:0 0 6px;">|| दर्शनाभिलाषी एवं प्रेषक ||</p>
+        <h2 class="footer-title">Ankit Kumar &amp; Komal Kumari</h2>
+        <p class="footer-address">
+          प्रेषक: श्री संजय प्रसाद · पता: धमरबहाल, चुनुडीह, पो०: घाटशिला, पूर्वी सिंहभूम, झारखण्ड<br />
+          फोन: 9709176553, 8709143133
+        </p>
+        <div class="footer-btns">
+          <a href="https://wa.me/919709176553?text=Namaste%2C%20hum%20Ankit%20Kumar%20aur%20Komal%20Kumari%20ke%20Shubh%20Vivah%20mein%20zaroor%20shamil%20honge." target="_blank" rel="noopener noreferrer" class="btn-royal btn-gold">
+            WhatsApp RSVP · 9709176553
+          </a>
+          <button type="button" id="lanternBtn" class="btn-royal btn-outline-cream">
+            आशीर्वाद दीप प्रज्वलित करें
+          </button>
+        </div>
+      </div>
+    </footer>
+
+  </main>
+
+  <!-- COUPLE DETAILS POPUP MODAL -->
+  <div id="personModal" class="modal-backdrop" role="dialog" aria-modal="true">
+    <div class="modal-card">
+      <button type="button" class="modal-close" id="closePersonModal" aria-label="Close">&times;</button>
+      <div id="personModalBody"></div>
+    </div>
+  </div>
+
+  <!-- GALLERY FULLSCREEN LIGHTBOX -->
+  <div id="lightboxModal" class="modal-backdrop" role="dialog" aria-modal="true">
+    <button type="button" class="modal-close" id="closeLightbox" style="top:16px;right:16px;width:40px;height:40px;" aria-label="Close">&times;</button>
+    <img id="lightboxImg" class="lightbox-img" src="" alt="Pre-wedding Full View" />
+  </div>
+
+  <script>
+    (function () {
+      var fxLayer = document.getElementById('fxLayer');
+      var autoPetalTimer = null;
+
+      /* AUTOMATIC GENTLE FLOWER PETALS AFTER BOOK OPENS */
+      function startAutoPetals() {
+        if (autoPetalTimer) return;
+        var petals = ['🌸', '🌹', '🌼', '🌺', '🏵️'];
+
+        function createPetal() {
+          if (!fxLayer || document.hidden) return;
+          var p = document.createElement('div');
+          p.className = 'auto-petal';
+          p.textContent = petals[Math.floor(Math.random() * petals.length)];
+          p.style.left = (Math.random() * 96) + '%';
+          p.style.fontSize = (15 + Math.random() * 10) + 'px';
+          p.style.setProperty('--drift-x', ((Math.random() - 0.5) * 90).toFixed(0) + 'px');
+          p.style.setProperty('--spin-deg', (240 + Math.random() * 360).toFixed(0) + 'deg');
+          var dur = 5200 + Math.random() * 3200;
+          p.style.animationDuration = dur + 'ms';
+
+          fxLayer.appendChild(p);
+          setTimeout(function () {
+            if (p.parentNode) p.parentNode.removeChild(p);
+          }, dur + 150);
+        }
+
+        createPetal();
+        autoPetalTimer = setInterval(createPetal, 1150);
+      }
+
+      /* 1. ENVELOPE -> CARD FLIP -> BOOK OPEN */
+      var stageOverlay = document.getElementById('stageOverlay');
+      var stageWrapper = document.getElementById('stageWrapper');
+      var envelopeBox = document.getElementById('envelopeBox');
+      var cardBookBox = document.getElementById('cardBookBox');
+      var stageHint = document.getElementById('stageHint');
+      var mainSite = document.getElementById('mainSite');
+      var currentStep = 1;
+
+      function goToCardFlip() {
+        if (currentStep !== 1) return;
+        currentStep = 2;
+        stageWrapper.classList.add('step-card');
+        stageHint.textContent = 'Tap the Card to Open Book';
+      }
+
+      function goToBookOpen() {
+        if (currentStep !== 2) return;
+        currentStep = 3;
+        stageWrapper.classList.add('step-book');
+        stageHint.textContent = 'Opening Royal Invitation...';
+        setTimeout(function () {
+          stageOverlay.classList.add('stage-done');
+          mainSite.classList.add('is-visible');
+          startAutoPetals();
+        }, 1050);
+      }
+
+      envelopeBox.addEventListener('click', function (e) {
+        e.stopPropagation();
+        spawnTapEffect(e.clientX, e.clientY, 'default');
+        goToCardFlip();
+      });
+
+      cardBookBox.addEventListener('click', function (e) {
+        e.stopPropagation();
+        spawnTapEffect(e.clientX, e.clientY, 'default');
+        goToBookOpen();
+      });
+
+      /* 2. TARGETED TAP EFFECTS (HALDI / LIGHTS / FLOWERS) */
+      function spawnTapEffect(x, y, zoneType) {
+        if (!fxLayer) return;
+        var count = 14;
+
+        for (var i = 0; i < count; i++) {
+          var el = document.createElement('div');
+          el.className = 'tap-particle';
+          el.style.left = x + 'px';
+          el.style.top = y + 'px';
+
+          var angle = (Math.PI * 2 * i) / count + (Math.random() - 0.5) * 0.5;
+          var dist = 48 + Math.random() * 82;
+          var dx = Math.cos(angle) * dist;
+          var dy = Math.sin(angle) * dist + (zoneType === 'preetibhoj' ? -18 : 30);
+          var rot = (Math.random() - 0.5) * 320;
+
+          if (zoneType === 'haldi') {
+            if (i % 2 === 0) {
+              var size = 9 + Math.random() * 12;
+              el.style.width = size + 'px';
+              el.style.height = size + 'px';
+              el.style.borderRadius = '50%';
+              el.style.background = i % 4 === 0 ? '#F4B400' : '#FF8F00';
+              el.style.boxShadow = '0 0 8px rgba(255, 179, 0, 0.85)';
+            } else {
+              el.textContent = i % 3 === 0 ? '🌼' : '💛';
+              el.style.fontSize = (16 + Math.random() * 9) + 'px';
+            }
+          } else if (zoneType === 'preetibhoj') {
+            var colors = ['#FF1744', '#00E676', '#2979FF', '#FFEA00', '#D500F9', '#FF9100', '#00E5FF'];
+            var c = colors[i % colors.length];
+            var lightSize = 9 + Math.random() * 8;
+            el.style.width = lightSize + 'px';
+            el.style.height = lightSize + 'px';
+            el.style.borderRadius = '50%';
+            el.style.background = '#FFFFFF';
+            el.style.boxShadow = '0 0 10px 3px ' + c + ', 0 0 20px 6px ' + c;
+          } else {
+            var flowers = ['🌸', '🌹', '🌺', '🌼', '🏵️'];
+            el.textContent = flowers[i % flowers.length];
+            el.style.fontSize = (16 + Math.random() * 9) + 'px';
+          }
+
+          fxLayer.appendChild(el);
+
+          el.animate([
+            { transform: 'translate(-50%, -50%) scale(0.4) rotate(0deg)', opacity: 1 },
+            { transform: 'translate(calc(-50% + ' + dx + 'px), calc(-50% + ' + dy + 'px)) scale(1.1) rotate(' + rot + 'deg)', opacity: 0 }
+          ], {
+            duration: 900 + Math.random() * 300,
+            easing: 'cubic-bezier(0.16, 1, 0.3, 1)',
+            fill: 'forwards'
+          });
+
+          (function (node) {
+            setTimeout(function () {
+              if (node.parentNode) node.parentNode.removeChild(node);
+            }, 1250);
+          })(el);
+        }
+      }
+
+      document.addEventListener('click', function (e) {
+        var haldiEl = e.target.closest('[data-tap-zone="haldi"]');
+        var preetiEl = e.target.closest('[data-tap-zone="preetibhoj"]');
+        if (haldiEl) {
+          spawnTapEffect(e.clientX, e.clientY, 'haldi');
+        } else if (preetiEl) {
+          spawnTapEffect(e.clientX, e.clientY, 'preetibhoj');
+        } else {
+          spawnTapEffect(e.clientX, e.clientY, 'default');
+        }
+      });
+
+      /* 3. LIVE IST COUNTDOWN */
+      var targetUtc = Date.UTC(2026, 11, 11, 13, 30, 0);
+      var cdDays = document.getElementById('cdDays');
+      var cdHours = document.getElementById('cdHours');
+      var cdMinutes = document.getElementById('cdMinutes');
+      var cdSeconds = document.getElementById('cdSeconds');
+
+      function pad(n) { return n < 10 ? '0' + n : '' + n; }
+
+      function tickCountdown() {
+        var diff = targetUtc - Date.now();
+        if (diff <= 0) {
+          cdDays.textContent = '00';
+          cdHours.textContent = '00';
+          cdMinutes.textContent = '00';
+          cdSeconds.textContent = '00';
+          return;
+        }
+        var sec = Math.floor(diff / 1000);
+        cdDays.textContent = pad(Math.floor(sec / 86400));
+        cdHours.textContent = pad(Math.floor((sec % 86400) / 3600));
+        cdMinutes.textContent = pad(Math.floor((sec % 3600) / 60));
+        cdSeconds.textContent = pad(sec % 60);
+      }
+      tickCountdown();
+      setInterval(tickCountdown, 1000);
+
+      /* 4. COUPLE POPUP & LIGHTBOX */
+      var personModal = document.getElementById('personModal');
+      var personModalBody = document.getElementById('personModalBody');
+      var closePersonModal = document.getElementById('closePersonModal');
+
+      var coupleInfo = {
+        groom: {
+          title: 'चि. वर — Ankit Kumar',
+          img: 'groom.jpg',
+          details: 'सुपुत्र: श्री संजय प्रसाद<br>निवास: धमरबहाल, चुनुडीह, पो०: घाटशिला, पूर्वी सिंहभूम, झारखण्ड'
+        },
+        bride: {
+          title: 'आयु. वधू — Komal Kumari',
+          img: 'bride.jpg',
+          details: 'निवास: बेनाशोल, केन्दाडीह मुसाबनी, पूर्वी सिंहभूम, झारखण्ड<br>पावन परिणय: 11.12.2026'
+        }
+      };
+
+      document.querySelectorAll('.person-card').forEach(function (card) {
+        card.addEventListener('click', function () {
+          var key = card.getAttribute('data-person');
+          var data = coupleInfo[key];
+          if (!data) return;
+          personModalBody.innerHTML =
+            '<img src="' + data.img + '" alt="' + data.title + '" style="width:110px;height:110px;border-radius:50%;object-fit:cover;border:3px solid #C6923A;margin-bottom:12px;" />' +
+            '<h3 style="font-family:var(--font-display);font-size:26px;color:#7A1422;margin:0 0 8px;">' + data.title + '</h3>' +
+            '<p style="font-family:var(--font-hindi);font-size:17px;line-height:1.6;color:#2C1014;margin:0;">' + data.details + '</p>';
+          personModal.classList.add('is-open');
+        });
+      });
+
+      closePersonModal.addEventListener('click', function () {
+        personModal.classList.remove('is-open');
+      });
+      personModal.addEventListener('click', function (e) {
+        if (e.target === personModal) personModal.classList.remove('is-open');
+      });
+
+      var lightboxModal = document.getElementById('lightboxModal');
+      var lightboxImg = document.getElementById('lightboxImg');
+      var closeLightbox = document.getElementById('closeLightbox');
+
+      document.querySelectorAll('.gallery-item').forEach(function (item) {
+        item.addEventListener('click', function () {
+          lightboxImg.src = item.getAttribute('data-full');
+          lightboxModal.classList.add('is-open');
+        });
+      });
+
+      closeLightbox.addEventListener('click', function () {
+        lightboxModal.classList.remove('is-open');
+      });
+      lightboxModal.addEventListener('click', function (e) {
+        if (e.target === lightboxModal) lightboxModal.classList.remove('is-open');
+      });
+
+      /* 5. WISH LANTERNS */
+      var lanternBtn = document.getElementById('lanternBtn');
+      lanternBtn.addEventListener('click', function () {
+        for (var i = 0; i < 4; i++) {
+          var lantern = document.createElement('div');
+          lantern.className = 'wish-lantern';
+          lantern.style.left = (10 + i * 22 + Math.random() * 5) + '%';
+          lantern.innerHTML =
+            '<svg viewBox="0 0 64 90" width="48" height="70">' +
+            '<path d="M14 16 Q32 -2 50 16 L56 64 Q32 72 8 64 Z" fill="#F2B84B"/>' +
+            '<circle cx="32" cy="46" r="8" fill="#FFFDF9"/>' +
+            '<path d="M24 74 L40 74" stroke="#E8C57B" stroke-width="2.5"/>' +
+            '</svg>';
+          fxLayer.appendChild(lantern);
+          (function (node) {
+            setTimeout(function () {
+              if (node.parentNode) node.parentNode.removeChild(node);
+            }, 5900);
+          })(lantern);
+        }
+      });
+    })();
+  </script>
+</body>
+</html>
